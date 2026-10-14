@@ -1,0 +1,33 @@
+experiment_name: mlp_vae
+seed: 42
+device: cuda
+data_dir: ${hydra:runtime.cwd}/data
+
+model:
+  type: mlp
+  latent_dim: 10
+  hidden_dims: [?, ?]
+
+training:
+  epochs: 10
+  batch_size: 128
+  learning_rate: 0.001
+  beta: 1.0
+  # Choose from: bernoulli, gaussian, categorical_cross_entropy, student_t
+  likelihood: bernoulli
+  num_workers: 2
+  max_train_examples: null
+  max_test_examples: null
+
+logging:
+  use_wandb: true
+  project: cim-lab-3
+  entity: null
+  image_every: 1
+  n_images: 16
+
+hydra:
+  job:
+    chdir: false
+  run:
+    dir: outputs/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S}
